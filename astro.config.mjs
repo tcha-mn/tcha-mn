@@ -12,6 +12,7 @@ import { readingTimeRemarkPlugin } from './src/utils/frontmatter.mjs';
 import { ANALYTICS, SITE } from './src/utils/config.ts';
 import sanity from '@sanity/astro';
 import react from '@astrojs/react';
+import vercel from '@astrojs/vercel/serverless';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const whenExternalScripts = (items = []) =>
   ANALYTICS.vendors.googleAnalytics.id && ANALYTICS.vendors.googleAnalytics.partytown
@@ -25,7 +26,8 @@ export default defineConfig({
   site: SITE.site,
   base: SITE.base,
   trailingSlash: SITE.trailingSlash ? 'always' : 'never',
-  output: 'static',
+  output: 'hybrid',
+  adapter: vercel(),
   integrations: [
     tailwind({
       applyBaseStyles: false,
@@ -71,6 +73,7 @@ export default defineConfig({
       dataset: 'production',
       // Set useCdn to false if you're building statically.
       useCdn: false,
+      studioBasePath: '/admin',
     }),
     react(),
   ],
