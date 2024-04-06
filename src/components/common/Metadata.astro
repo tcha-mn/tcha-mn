@@ -10,9 +10,14 @@ import { getCanonical } from '~/utils/permalinks';
 
 import { adaptOpenGraphImages } from '~/utils/images';
 
+import { fetchAll } from '~/queries/SiteSettings';
+
 export interface Props extends MetaData {
   dontUseTitleTemplate?: boolean;
 }
+
+const siteSettings = await fetchAll();
+console.log(siteSettings);
 
 const {
   title,
@@ -51,6 +56,10 @@ const seoProps: AstroSeoProps = merge(
     description: METADATA?.description,
     openGraph: METADATA?.openGraph,
     twitter: METADATA?.twitter,
+  },
+  {
+    title: siteSettings.title,
+    description: siteSettings.description,
   },
   {
     title: title,
